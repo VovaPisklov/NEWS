@@ -12,9 +12,7 @@ final class NewsViewController: UIViewController {
     // MARK: - Gui Variables
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        
         scrollView.showsVerticalScrollIndicator = false
-        
         return scrollView
     }()
     
@@ -22,34 +20,26 @@ final class NewsViewController: UIViewController {
     
     private lazy var imageView: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "Image")
         return view
     }()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Some title for the news"
         label.font = .boldSystemFont(ofSize: 24)
         label.numberOfLines = 0
-        
         return label
     }()
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac urna id est facilisis commodo. Quisque venenatis, ligula a tincidunt malesuada, augue tortor luctus elit, eu mattis odio nisi eu est. Vestibulum id quam sed libero euismod auctor. Fusce laoreet purus in urna congue, vitae semper sapien tincidunt. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus id tincidunt purus. Ut dapibus, leo in gravida scelerisque, sem risus tincidunt tortor, eu vestibulum lacus neque a odio. Maecenas a orci sit amet dui rhoncus eleifend a sit amet nisi. Nullam in arcu nec elit dignissim efficitur. Sed ac tristique libero. Sed at lacus efficitur, facilisis quam nec, cursus nunc.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac urna id est facilisis commodo. Quisque venenatis, ligula a tincidunt malesuada, augue tortor luctus elit, eu mattis odio nisi eu est. Vestibulum id quam sed libero euismod auctor. Fusce laoreet purus in urna congue, vitae semper sapien tincidunt. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus id tincidunt purus. Ut dapibus, leo in gravida scelerisque, sem risus tincidunt tortor, eu vestibulum lacus neque a odio. Maecenas a orci sit amet dui rhoncus eleifend a sit amet nisi. Nullam in arcu nec elit dignissim efficitur. Sed ac tristique libero. Sed at lacus efficitur, facilisis quam nec, cursus nunc."
-        
         label.font = .boldSystemFont(ofSize: 24)
         label.numberOfLines = 0
         label.textColor = .darkGray
-        
         return label
     }()
     
-    private lazy var dataLabel: UILabel = {
+    private lazy var dateLabel: UILabel = {
         let label = UILabel()
-        
-        label.text = "12.08.2001"
         label.font = .systemFont(ofSize: 12)
         label.textColor = .darkGray
         return label
@@ -58,9 +48,17 @@ final class NewsViewController: UIViewController {
     
     // MARK: - Properties
     private var edgeInset = 10
-    
+    private var viewModel: NewsViewModelProtocol
+
     // MARK: - Life Cycle
+    init(viewModel: NewsViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -74,11 +72,22 @@ final class NewsViewController: UIViewController {
     private func setupUI() {
         scrollView.addSubview(contentView)
         contentView.addSubview(imageView)
-        contentView.addSubview(dataLabel)
+        contentView.addSubview(dateLabel)
         contentView.addSubview(titleLabel)
         contentView.addSubview(descriptionLabel)
         view.addSubview(scrollView)
 
+        
+        titleLabel.text = viewModel.title
+        descriptionLabel.text = viewModel.description
+        dateLabel.text = viewModel.date
+        if let data = viewModel.imageData,
+           let image = UIImage(data: data) {
+            imageView.image = image
+        } else {
+            imageView.image = UIImage(named: "Image")
+        }
+        
         setupConstraints()
     }
     
@@ -96,13 +105,13 @@ final class NewsViewController: UIViewController {
             make.height.equalTo(view.snp.width)
         }
         
-        dataLabel.snp.makeConstraints { make in
+        dateLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(edgeInset)
             make.leading.trailing.equalToSuperview().inset(edgeInset)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(dataLabel.snp.bottom).offset(edgeInset)
+            make.top.equalTo(dateLabel.snp.bottom).offset(edgeInset)
             make.leading.trailing.equalToSuperview().inset(edgeInset)
         }
         
