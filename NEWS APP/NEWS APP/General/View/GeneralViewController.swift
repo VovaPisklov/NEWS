@@ -35,6 +35,15 @@ class GeneralViewController: UIViewController  {
         return collectionView
     }()
     
+     MARK: - Properties
+    private let viewModel: GeneralViewModelProtocol
+    
+     MARK: - Life Cycle
+    init(viewModel: GeneralViewModel) {
+        self.viewModel = viewModel
+        super.init()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
