@@ -60,6 +60,11 @@ class GeneralViewController: UIViewController  {
         viewModel.reloadData = { [weak self] in
             self?.collectionView.reloadData()
         }
+        
+        viewModel.showError = { [weak self] error in
+         // TODO: Show alert with error
+            print(error)
+        }
     }
     
     private func setupUI() {
