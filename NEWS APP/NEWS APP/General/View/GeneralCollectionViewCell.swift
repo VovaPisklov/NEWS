@@ -12,7 +12,7 @@ final class GeneralCollectionViewCell: UICollectionViewCell {
     // MARK: - Gui Variables
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.layer.masksToBounds = true
         return imageView
     }()
     
@@ -45,8 +45,10 @@ final class GeneralCollectionViewCell: UICollectionViewCell {
         if let data = article.imageData,
            let image = UIImage(data: data) {
             imageView.image = image
+            imageView.contentMode = .scaleAspectFill
         } else {
             imageView.image = UIImage(systemName: "photo")
+            imageView.contentMode = .scaleAspectFit
         }
     }
     
