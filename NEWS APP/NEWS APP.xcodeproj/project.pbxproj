@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		801DCDAA2BA378A900E1D818 /* NewsResponseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801DCDA92BA378A900E1D818 /* NewsResponseObject.swift */; };
+		801DCDAC2BA3794900E1D818 /* ArticleResponseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801DCDAB2BA3794900E1D818 /* ArticleResponseObject.swift */; };
+		801DCDAF2BA37CED00E1D818 /* ArticleCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801DCDAE2BA37CED00E1D818 /* ArticleCellViewModel.swift */; };
 		809386A82B9F814E00602163 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809386A72B9F814E00602163 /* AppDelegate.swift */; };
 		809386AC2B9F814E00602163 /* GeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809386AB2B9F814E00602163 /* GeneralViewController.swift */; };
 		809386B12B9F815100602163 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 809386B02B9F815100602163 /* Assets.xcassets */; };
@@ -23,6 +26,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		801DCDA92BA378A900E1D818 /* NewsResponseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsResponseObject.swift; sourceTree = "<group>"; };
+		801DCDAB2BA3794900E1D818 /* ArticleResponseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleResponseObject.swift; sourceTree = "<group>"; };
+		801DCDAE2BA37CED00E1D818 /* ArticleCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCellViewModel.swift; sourceTree = "<group>"; };
 		809386A42B9F814E00602163 /* NEWS APP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NEWS APP.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		809386A72B9F814E00602163 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		809386AB2B9F814E00602163 /* GeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralViewController.swift; sourceTree = "<group>"; };
@@ -51,6 +57,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		801DCDAD2BA37B5900E1D818 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				801DCDA92BA378A900E1D818 /* NewsResponseObject.swift */,
+				801DCDAB2BA3794900E1D818 /* ArticleResponseObject.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		8093869B2B9F814E00602163 = {
 			isa = PBXGroup;
 			children = (
@@ -88,6 +103,7 @@
 			children = (
 				809386C92B9FA85800602163 /* View */,
 				809386D72B9FC81400602163 /* ViewModel */,
+				801DCDAD2BA37B5900E1D818 /* Model */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -154,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				809386D52B9FC80300602163 /* GeneralViewModel.swift */,
+				801DCDAE2BA37CED00E1D818 /* ArticleCellViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -235,13 +252,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				801DCDAC2BA3794900E1D818 /* ArticleResponseObject.swift in Sources */,
 				809386C02B9F87F300602163 /* TechnologyViewController.swift in Sources */,
 				809386CD2B9FA8AB00602163 /* GeneralCollectionViewCell.swift in Sources */,
 				809386BC2B9F83D200602163 /* TabBarController.swift in Sources */,
 				809386AC2B9F814E00602163 /* GeneralViewController.swift in Sources */,
 				809386D22B9FB32A00602163 /* NewsViewControllerr.swift in Sources */,
 				809386D62B9FC80300602163 /* GeneralViewModel.swift in Sources */,
+				801DCDAA2BA378A900E1D818 /* NewsResponseObject.swift in Sources */,
 				809386BE2B9F87D100602163 /* BusinessViewController.swift in Sources */,
+				801DCDAF2BA37CED00E1D818 /* ArticleCellViewModel.swift in Sources */,
 				809386A82B9F814E00602163 /* AppDelegate.swift in Sources */,
 				809386D42B9FC05800602163 /* DetailsCollectionViewCell.swift in Sources */,
 			);
