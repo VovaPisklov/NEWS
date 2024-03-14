@@ -61,6 +61,10 @@ class GeneralViewController: UIViewController  {
             self?.collectionView.reloadData()
         }
         
+        viewModel.reloadCell = { [weak self] row in
+            self?.collectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
+        }
+        
         viewModel.showError = { [weak self] error in
          // TODO: Show alert with error
             print(error)

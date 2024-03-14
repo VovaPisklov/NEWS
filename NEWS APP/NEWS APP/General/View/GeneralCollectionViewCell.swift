@@ -11,9 +11,9 @@ import SnapKit
 final class GeneralCollectionViewCell: UICollectionViewCell {
     // MARK: - Gui Variables
     private lazy var imageView: UIImageView = {
-        let view = UIImageView()
-        view.image = UIImage(named: "Image")
-        return view
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
     }()
     
     private lazy var blackView: UIView = {
@@ -42,6 +42,12 @@ final class GeneralCollectionViewCell: UICollectionViewCell {
     // MARK: - Methods
     func set(article: ArticleCellViewModel) {
         titleLabel.text = article.title
+        if let data = article.imageData,
+           let image = UIImage(data: data) {
+            imageView.image = image
+        } else {
+            imageView.image = UIImage(named: "Image")
+        }
     }
     
     // MARK: - Private methods

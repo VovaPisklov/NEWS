@@ -18,10 +18,27 @@ final class ApiManager {
         
         guard let url = URL(string: stringUrl) else { return }
         
-        let session = URLSession.shared.dataTask(with: url) { data, response, error in
+        let session = URLSession.shared.dataTask(with: url) { data, _, error in
             handleResponse(data: data, error: error, completion: completion)
         }
         
+        session.resume()
+    }
+    
+    static func getImageData(url: String, 
+                             completion: @escaping (Result<Data,
+                                                    Error>) -> ()) {
+        guard let url = URL(string: url) else { return }
+        
+        let session = URLSession.shared.dataTask(with: url) { data, _, error in
+            if let error {
+                completion(.failure(error))
+            } else if let data {
+                completion(.success(data))
+            } else {
+                completion(.failure(NetworkingError.unknown))
+            }
+        }
         session.resume()
     }
     
@@ -30,9 +47,9 @@ final class ApiManager {
                                        error: Error?,
                                        completion: @escaping (Result<[ArticleResponseObject],
                                                               Error>) -> ()) {
-        if let error = error {
+        if let error {
             completion(.failure(NetworkingError.networkingError(error)))
-        } else if let data = data {
+        } else if let data {
             do {
                 let model = try JSONDecoder().decode(NewsResponseObject.self, from: data)
                 completion(.success(model.articles))

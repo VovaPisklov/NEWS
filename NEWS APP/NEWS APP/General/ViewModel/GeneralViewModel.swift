@@ -12,12 +12,16 @@ protocol GeneralViewModelProtocol {
     
     var showError: ((String) -> Void)? { get set }
     
+    var reloadCell: ((Int) -> Void)? { get set }
+
     var numberOfCells: Int { get }
     
     func getArticle(for row: Int) -> ArticleCellViewModel
 }
 
 final class GeneralViewModel: GeneralViewModelProtocol {
+    var reloadCell: ((Int) -> Void)?
+    
     var showError: ((String) -> Void)?
     
     var reloadData: (() -> Void)?
@@ -27,10 +31,11 @@ final class GeneralViewModel: GeneralViewModelProtocol {
         articles.count
     }
     
-    private var articles: [ArticleResponseObject] = [] {
+    private var articles: [ArticleCellViewModel] = [] {
         didSet {
+            guard articles.count != oldValue.count else { return } 
             DispatchQueue.main.sync {
-                reloadData?()
+                self.reloadData?()
             }
         }
     }
@@ -40,26 +45,52 @@ final class GeneralViewModel: GeneralViewModelProtocol {
     }
     
     func getArticle(for row: Int) -> ArticleCellViewModel {
-        let article = articles[row]
-        return ArticleCellViewModel(article: article)
+        return articles[row]
     }
     
     private func loadData() {
         ApiManager.getNews { [weak self] result in
+            guard let self else { return }
             switch result {
             case .success(let articles):
-                self?.articles = articles
+                self.articles = self.convertToCellViewModel(articles)
+                self.loadImages()
             case .failure(let error):
                 DispatchQueue.main.sync {
-                    self?.showError?(error.localizedDescription)
+                    self.showError?(error.localizedDescription)
                 }
             }
         }
         //        setupMockObject()
     }
     
+    private func convertToCellViewModel(_ articles: [ArticleResponseObject]) -> [ArticleCellViewModel] {
+        articles.map { ArticleCellViewModel(article: $0) }
+    }
+    
+    private func loadImages() {
+        for (index, article) in articles.enumerated() {
+            ApiManager.getImageData(url: article.imageUrl) { [weak self] result in
+                DispatchQueue.main.sync {
+                    switch result {
+                    case .success(let data):
+                        self?.articles[index].imageData = data
+                        self?.reloadCell?(index)
+                    case .failure(let error):
+                        self?.showError?(error.localizedDescription)
+                    }
+                }
+            }
+        }
+    }
+    
     private func setupMockObject() {
-        articles = [
+        let articleObjects = createMockArticleObjects()
+        articles = convertToCellViewModel(articleObjects)
+    }
+    
+    private func createMockArticleObjects() -> [ArticleResponseObject] {
+        return [
             ArticleResponseObject(title: "First object title", description: "First object description in the mock object", urlToImage: "...", date: "23.01.2012"),
             ArticleResponseObject(title: "Second object title", description: "Second object description in the mock object", urlToImage: "...", date: "24.01.2012"),
             ArticleResponseObject(title: "Third object title", description: "Third object description in the mock object", urlToImage: "...", date: "25.01.2012"),
