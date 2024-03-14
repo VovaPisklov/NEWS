@@ -30,9 +30,9 @@ final class GeneralViewModel: GeneralViewModelProtocol {
     private var articles: [ArticleResponseObject] = [] {
         didSet {
             DispatchQueue.main.sync {
-            reloadData?()
+                reloadData?()
+            }
         }
-    }
     }
     
     init() {
