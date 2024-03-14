@@ -85,7 +85,7 @@ final class NewsViewController: UIViewController {
            let image = UIImage(data: data) {
             imageView.image = image
         } else {
-            imageView.image = UIImage(named: "Image")
+            imageView.image = UIImage(systemName: "photo")
         }
         
         setupConstraints()

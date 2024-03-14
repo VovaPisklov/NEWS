@@ -12,7 +12,7 @@ final class DetailsCollectionViewCell: UICollectionViewCell {
     // MARK: - Gui Variables
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "Image")
+        imageView.image = UIImage(systemName: "photo")
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true // проверить потом
         return imageView
