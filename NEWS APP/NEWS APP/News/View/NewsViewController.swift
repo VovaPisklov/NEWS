@@ -19,8 +19,9 @@ final class NewsViewController: UIViewController {
     private lazy var contentView = UIView()
     
     private lazy var imageView: UIImageView = {
-        let view = UIImageView()
-        return view
+        let imageView = UIImageView()
+        imageView.layer.masksToBounds = true
+        return imageView
     }()
     
     private lazy var titleLabel: UILabel = {
@@ -84,8 +85,10 @@ final class NewsViewController: UIViewController {
         if let data = viewModel.imageData,
            let image = UIImage(data: data) {
             imageView.image = image
+            imageView.contentMode = .scaleAspectFill
         } else {
             imageView.image = UIImage(systemName: "photo")
+            imageView.contentMode = .scaleAspectFit
         }
         
         setupConstraints()
