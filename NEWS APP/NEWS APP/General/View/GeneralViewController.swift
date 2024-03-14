@@ -35,13 +35,14 @@ class GeneralViewController: UIViewController  {
         return collectionView
     }()
     
-     MARK: - Properties
-    private let viewModel: GeneralViewModelProtocol
+    //  MARK: - Properties
+    private var viewModel: GeneralViewModelProtocol
     
-     MARK: - Life Cycle
-    init(viewModel: GeneralViewModel) {
+    // MARK: - Life Cycle
+    init(viewModel: GeneralViewModelProtocol) {
         self.viewModel = viewModel
-        super.init()
+        super.init(nibName: nil, bundle: nil)
+        self.setupViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -55,6 +56,12 @@ class GeneralViewController: UIViewController  {
     // MARK: - Methods
     
     // MARK: - Private methods
+    private func setupViewModel() {
+        viewModel.reloadData = { [weak self] in
+            self?.collectionView.reloadData()
+        }
+    }
+    
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubview(searchBar)
@@ -82,7 +89,7 @@ class GeneralViewController: UIViewController  {
 // MARK: - UICollectionViewDataSource
 extension GeneralViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        15
+        viewModel.numberOfCells
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -90,10 +97,12 @@ extension GeneralViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
+        let article = viewModel.getArticle(for: indexPath.row)
+        cell.set(article: article)
+        
         return cell
     }
 }
-
 
 // MARK: - UICollectionViewDelegate
 extension GeneralViewController: UICollectionViewDelegate {
