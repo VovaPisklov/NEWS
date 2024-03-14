@@ -9,12 +9,17 @@ import Foundation
 
 protocol GeneralViewModelProtocol {
     var reloadData: (() -> Void)? { get set }
+    
+    var showError: ((String) -> Void)? { get set }
+    
     var numberOfCells: Int { get }
     
     func getArticle(for row: Int) -> ArticleCellViewModel
 }
 
 final class GeneralViewModel: GeneralViewModelProtocol {
+    var showError: ((String) -> Void)?
+    
     var reloadData: (() -> Void)?
     
     //  MARK: - Properties
@@ -38,8 +43,17 @@ final class GeneralViewModel: GeneralViewModelProtocol {
     }
     
     private func loadData() {
-        // TODO: load Data
-        setupMockObject()
+        ApiManager.getNews { [weak self] result in
+            switch result {
+            case .success(let articles):
+                self?.articles = articles
+            case .failure(let error):
+                DispatchQueue.main.sync {
+                    self?.showError?(error.localizedDescription)
+                }
+            }
+        }
+        //        setupMockObject()
     }
     
     private func setupMockObject() {
