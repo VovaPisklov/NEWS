@@ -49,7 +49,7 @@ final class BusinessViewModel: BusinessViewModelProtocol {
     }
     
     private func loadData() {
-        ApiManager.getNews(theme: .General) { [weak self] result in
+        ApiManager.getNews(theme: .business) { [weak self] result in
             guard let self else { return }
             switch result {
             case .success(let articles):
