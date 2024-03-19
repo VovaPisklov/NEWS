@@ -14,7 +14,7 @@ final class DetailsCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "photo")
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.masksToBounds = true // проверить потом
+        imageView.layer.masksToBounds = true
         return imageView
     }()
     
