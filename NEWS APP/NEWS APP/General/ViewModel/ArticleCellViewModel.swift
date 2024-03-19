@@ -9,9 +9,9 @@ import Foundation
 
 struct ArticleCellViewModel {
     let title: String
-    let description: String
+    let description: String?
     let date: String
-    var imageUrl: String
+    var imageUrl: String?
     var imageData: Data?
     
     init(article: ArticleResponseObject) {

@@ -23,7 +23,7 @@ final class NewsViewModel: NewsViewModelProtocol {
     
     init(article: ArticleCellViewModel) {
         title = article.title
-        description = article.description
+        description = article.description ?? ""  
         date = article.date
         imageData = article.imageData
     }

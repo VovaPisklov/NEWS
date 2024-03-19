@@ -70,7 +70,7 @@ final class GeneralViewModel: GeneralViewModelProtocol {
     
     private func loadImages() {
         for (index, article) in articles.enumerated() {
-            ApiManager.getImageData(url: article.imageUrl) { [weak self] result in
+            ApiManager.getImageData(url: article.imageUrl ?? "") { [weak self] result in
                 DispatchQueue.main.sync {
                     switch result {
                     case .success(let data):
