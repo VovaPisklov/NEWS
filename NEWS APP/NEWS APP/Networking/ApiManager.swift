@@ -25,30 +25,19 @@ final class ApiManager {
         case chinese = "zh"
     }
     
-    enum NewsCategory: String {
-        case business
-        case entertainment
-        case general
-        case health
-        case science
-        case sports
-        case technology
-    }
-    
-    enum Endpoint: String {
-        case everything = "everything"
-        case topHeadlines = "top-headlines"
-        case sources = "top-headlines/sources"
+    enum Theme: String {
+        case General = "everything?sources=bbc-news&language="
+        case Sports = "top-headlines?category=sports&country="
+        case Business = "top-headlines?category=business&country="
     }
     
     private static let apiKey = "38c84392c9574e9bb4c645b8adc61f93"
     private static let baseUrl = "https://newsapi.org/v2/"
-    private static let path: Endpoint = .everything
     private static let languageCode: LanguageCode = .english
 
     // Create url path and make request
-    static func getNews(completion: @escaping (Result<[ArticleResponseObject], Error>) -> ()) {
-        let stringUrl = baseUrl + path.rawValue + "?sources=bbc-news" + "&language=\(languageCode.rawValue)" + "&apiKey=" + apiKey
+    static func getNews(theme: Theme, completion: @escaping (Result<[ArticleResponseObject], Error>) -> ()) {
+        let stringUrl = baseUrl + theme.rawValue + languageCode.rawValue + "&apiKey=" + apiKey
         
         guard let url = URL(string: stringUrl) else { return }
         

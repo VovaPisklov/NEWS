@@ -49,7 +49,7 @@ final class GeneralViewModel: GeneralViewModelProtocol {
     }
     
     private func loadData() {
-        ApiManager.getNews { [weak self] result in
+        ApiManager.getNews(theme: .General) { [weak self] result in
             guard let self else { return }
             switch result {
             case .success(let articles):
@@ -61,7 +61,6 @@ final class GeneralViewModel: GeneralViewModelProtocol {
                 }
             }
         }
-        //        setupMockObject()
     }
     
     private func convertToCellViewModel(_ articles: [ArticleResponseObject]) -> [ArticleCellViewModel] {
