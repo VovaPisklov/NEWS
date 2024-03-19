@@ -12,7 +12,6 @@ final class DetailsCollectionViewCell: UICollectionViewCell {
     // MARK: - Gui Variables
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "photo")
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         return imageView
@@ -22,7 +21,6 @@ final class DetailsCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 16)
         label.textColor = .black
-        label.text = "Title here"
         label.numberOfLines = 2
         
         return label
@@ -32,7 +30,6 @@ final class DetailsCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14 )
         label.textColor = .gray
-        label.text = "Title here Title her Title her Title her Title her Title her Title her Title her Title her Title her Title her "
         label.numberOfLines = 2
         
         return label
@@ -48,6 +45,19 @@ final class DetailsCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     // MARK: - Methods
+    func set(article: ArticleCellViewModel) {
+        titleLabel.text = article.title
+        descriptionLabel.text = article.description
+        
+        if let data = article.imageData,
+           let image = UIImage(data: data) {
+            imageView.image = image
+            imageView.contentMode = .scaleAspectFill
+        } else {
+            imageView.image = UIImage(systemName: "photo")
+            imageView.contentMode = .scaleAspectFit
+        }
+    }
     
     // MARK: - Private methods
     private func setupUI() {

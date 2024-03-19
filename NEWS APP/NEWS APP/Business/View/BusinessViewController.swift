@@ -31,15 +31,38 @@ class BusinessViewController: UIViewController  {
     
     // MARK: - Properties
     
+    private var viewModel: BusinessViewModelProtocol
     
     // MARK: - Life Cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
+    init(viewModel: BusinessViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        self.setupUI()
+        self.setupViewModel()
     }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Methods
     
     // MARK: - Private methods
+    private func setupViewModel() {
+        viewModel.reloadData = { [weak self] in
+            self?.collectionView.reloadData()
+        }
+        
+        viewModel.reloadCell = { [weak self] row in
+            self?.collectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
+        }
+        
+        viewModel.showError = { [weak self] error in
+         // TODO: Show alert with error
+            print(error)
+        }
+    }
+    
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubview(collectionView)
@@ -65,7 +88,7 @@ extension BusinessViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        section == 0 ? 1 : 15
+        section == 0 ? 1 : viewModel.numberOfCells
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -77,6 +100,17 @@ extension BusinessViewController: UICollectionViewDataSource {
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DetailsCollectionViewCell", for: indexPath) as? DetailsCollectionViewCell
         }
         
+        
+        if let cell = cell {
+            let article = viewModel.getArticle(for: indexPath.row)
+            
+            if let generalCell = cell as? GeneralCollectionViewCell {
+                generalCell.set(article: article)
+            } else if let detailsCell = cell as? DetailsCollectionViewCell {
+                detailsCell.set(article: article)
+            }
+        }
+        
         return cell ?? UICollectionViewCell()
     }
 }
@@ -85,7 +119,8 @@ extension BusinessViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension BusinessViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        navigationController?.pushViewController(NewsViewController(), animated: true)
+        let article = viewModel.getArticle(for: indexPath.row)
+        navigationController?.pushViewController(NewsViewController(viewModel: NewsViewModel(article: article)), animated: true)
     }
 }
 
