@@ -8,13 +8,41 @@
 import Foundation
 
 final class ApiManager {
+    enum LanguageCode: String {
+        case arabic = "ar"
+        case german = "de"
+        case english = "en"
+        case spanish = "es"
+        case french = "fr"
+        case hindi = "hi"
+        case italian = "it"
+        case japanese = "ja"
+        case dutch = "nl"
+        case norwegian = "no"
+        case portuguese = "pt"
+        case russian = "ru"
+        case swedish = "sv"
+        case chinese = "zh"
+    }
+    
+    enum NewsCategory: String {
+        case business
+        case entertainment
+        case general
+        case health
+        case science
+        case sports
+        case technology
+    }
+    
     private static let apiKey = "38c84392c9574e9bb4c645b8adc61f93"
     private static let baseUrl = "https://newsapi.org/v2/"
     private static let path = "everything"
-    
+    private static let languageCode: LanguageCode = .english
+
     // Create url path and make request
     static func getNews(completion: @escaping (Result<[ArticleResponseObject], Error>) -> ()) {
-        let stringUrl = baseUrl + path + "?sources=bbc-news&language=en" + "&apiKey=" + apiKey
+        let stringUrl = baseUrl + path + "?sources=bbc-news" + "&language=\(languageCode.rawValue)" + "&apiKey=" + apiKey
         
         guard let url = URL(string: stringUrl) else { return }
         
