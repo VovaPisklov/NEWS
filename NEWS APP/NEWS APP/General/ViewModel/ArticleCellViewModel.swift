@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ArticleCellViewModel {
+final class ArticleCellViewModel: SectionDataSourceProtocol {
     let title: String
     let description: String?
     let date: String
