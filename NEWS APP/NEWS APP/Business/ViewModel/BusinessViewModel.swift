@@ -12,13 +12,13 @@ protocol BusinessViewModelProtocol {
     
     var showError: ((String) -> Void)? { get set }
     
-    var reloadCell: ((Int) -> Void)? { get set }
+    var reloadCell: ((IndexPath) -> Void)? { get set }
     
     var articles: [SectionDataSource] { get }
 }
 
 final class BusinessViewModel: BusinessViewModelProtocol {
-    var reloadCell: ((Int) -> Void)?
+    var reloadCell: ((IndexPath) -> Void)?
     
     var showError: ((String) -> Void)?
     
@@ -63,18 +63,19 @@ final class BusinessViewModel: BusinessViewModelProtocol {
     private func loadImages() {
         for (i, section) in articles.enumerated() {
             for (index, item) in section.items.enumerated() {
-                guard let article = item as? ArticleCellViewModel,
-                      let url = article.imageUrl else { return }
-                ApiManager.getImageData(url: url) { [weak self] result in
-                    DispatchQueue.main.sync {
-                        switch result {
-                        case .success(let data):
-                            if let article = self?.articles[i].items[index] as? ArticleCellViewModel {
-                                article.imageData = data
+                if let article = item as? ArticleCellViewModel,
+                   let url = article.imageUrl {
+                    ApiManager.getImageData(url: url) { [weak self] result in
+                        DispatchQueue.main.sync {
+                            switch result {
+                            case .success(let data):
+                                if let article = self?.articles[i].items[index] as? ArticleCellViewModel {
+                                    article.imageData = data
+                                }
+                                self?.reloadCell?(IndexPath(row: index, section: i))
+                            case .failure(let error):
+                                self?.showError?(error.localizedDescription)
                             }
-                            self?.reloadCell?(index)
-                        case .failure(let error):
-                            self?.showError?(error.localizedDescription)
                         }
                     }
                 }
