@@ -9,7 +9,7 @@ import Foundation
 
 final class ApiManager {
     enum Theme: String {
-        case general = "everything?sources=bbc-news&language=en"
+        case general = "everything?sources=bbc-news"
         case technology = "top-headlines?category=technology&country=us"
         case business = "top-headlines?category=business&country=us"
     }
@@ -18,8 +18,8 @@ final class ApiManager {
     private static let baseUrl = "https://newsapi.org/v2/"
 
     // Create url path and make request
-    static func getNews(theme: Theme, completion: @escaping (Result<[ArticleResponseObject], Error>) -> ()) {
-        let stringUrl = baseUrl + theme.rawValue + "&apiKey=" + apiKey
+    static func getNews(theme: Theme, page: Int, completion: @escaping (Result<[ArticleResponseObject], Error>) -> ()) {
+        let stringUrl = baseUrl + theme.rawValue + "&language=en&page=\(page)" + "&apiKey=\(apiKey)"
         
         guard let url = URL(string: stringUrl) else { return }
         

@@ -49,7 +49,7 @@ final class GeneralViewModel: GeneralViewModelProtocol {
     }
     
     private func loadData() {
-        ApiManager.getNews(theme: .general) { [weak self] result in
+        ApiManager.getNews(theme: .general, page: 1) { [weak self] result in
             guard let self else { return }
             switch result {
             case .success(let articles):

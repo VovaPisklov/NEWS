@@ -14,7 +14,9 @@ protocol BusinessViewModelProtocol {
     
     var reloadCell: ((IndexPath) -> Void)? { get set }
     
-    var articles: [SectionDataSource] { get }
+    var sections: [SectionDataSource] { get }
+    
+    func loadData()
 }
 
 final class BusinessViewModel: BusinessViewModelProtocol {
@@ -25,21 +27,29 @@ final class BusinessViewModel: BusinessViewModelProtocol {
     var reloadData: (() -> Void)?
     
     //  MARK: - Properties
-    private (set) var articles: [SectionDataSource] = [] {
+    private (set) var sections: [SectionDataSource] = [] {
         didSet {
-            guard articles.count != oldValue.count else { return }
-            DispatchQueue.main.sync {
-                self.reloadData?()
+            let sectionChangesDetected = sections.contains { newSection in
+                guard let oldSection = oldValue.first(where: { $0.items.count != newSection.items.count }) else {
+                    return false // Если секция не найдена в старом массиве с изменением количества элементов, то изменений нет
+                }
+                return true // Изменения найдены в количестве элементов в секции
+            }
+            
+            if sectionChangesDetected {
+                DispatchQueue.main.async {
+                    self.reloadData?()
+                }
             }
         }
     }
     
-    init() {
-        loadData()
-    }
+    private var page = 0
     
-    private func loadData() {
-        ApiManager.getNews(theme: .business) { [weak self] result in
+    func loadData() {
+        page += 1
+        
+        ApiManager.getNews(theme: .business, page: page) { [weak self] result in
             guard let self else { return }
             switch result {
             case .success(let articles):
@@ -54,14 +64,18 @@ final class BusinessViewModel: BusinessViewModelProtocol {
     }
     
     private func convertToCellViewModel(_ articles: [ArticleResponseObject]) {
-        var viewModel = articles.map { ArticleCellViewModel(article: $0) }
-        let firstSection = SectionDataSource(items: [viewModel.removeFirst()])
-        let secondSection = SectionDataSource(items: viewModel)
-        self.articles = [firstSection, secondSection]
+        var viewModels = articles.map { ArticleCellViewModel(article: $0) }
+        if sections.isEmpty {
+            let firstSection = SectionDataSource(items: [viewModels.removeFirst()])
+            let secondSection = SectionDataSource(items: viewModels)
+            sections = [firstSection, secondSection]
+        } else {
+            sections[1].items += viewModels
+        }
     }
     
     private func loadImages() {
-        for (i, section) in articles.enumerated() {
+        for (i, section) in sections.enumerated() {
             for (index, item) in section.items.enumerated() {
                 if let article = item as? ArticleCellViewModel,
                    let url = article.imageUrl {
@@ -69,7 +83,7 @@ final class BusinessViewModel: BusinessViewModelProtocol {
                         DispatchQueue.main.sync {
                             switch result {
                             case .success(let data):
-                                if let article = self?.articles[i].items[index] as? ArticleCellViewModel {
+                                if let article = self?.sections[i].items[index] as? ArticleCellViewModel {
                                     article.imageData = data
                                 }
                                 self?.reloadCell?(IndexPath(row: index, section: i))
