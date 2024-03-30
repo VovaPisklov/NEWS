@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class GeneralViewController: UIViewController  {
+final class GeneralViewController: UIViewController  {
     // MARK: - Gui Variables
     private lazy var searchBar: UISearchBar = {
         let serchBar = UISearchBar()
@@ -61,8 +61,8 @@ class GeneralViewController: UIViewController  {
             self?.collectionView.reloadData()
         }
         
-        viewModel.reloadCell = { [weak self] row in
-            self?.collectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
+        viewModel.reloadCell = { [weak self] indexPath in
+            self?.collectionView.reloadItems(at: [indexPath])
         }
         
         viewModel.showError = { [weak self] error in
@@ -98,17 +98,16 @@ class GeneralViewController: UIViewController  {
 // MARK: - UICollectionViewDataSource
 extension GeneralViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.numberOfCells
+         viewModel.sections[section].items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GeneralCollectionViewCell", for: indexPath) as? GeneralCollectionViewCell else {
+        guard let article = viewModel.sections[indexPath.section].items[indexPath.row] as? ArticleCellViewModel,
+              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GeneralCollectionViewCell", for: indexPath) as? GeneralCollectionViewCell else {
             return UICollectionViewCell()
         }
         
-        let article = viewModel.getArticle(for: indexPath.row)
         cell.set(article: article)
-        
         return cell
     }
 }
@@ -116,7 +115,7 @@ extension GeneralViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension GeneralViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let article = viewModel.getArticle(for: indexPath.row)
+        guard let article = viewModel.sections[indexPath.section].items[indexPath.row] as? ArticleCellViewModel else { return }
         navigationController?.pushViewController(NewsDetailsViewController(viewModel: NewsDetailsViewModel(article: article)), animated: true)
     }
 }

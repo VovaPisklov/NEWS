@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class BusinessViewController: UIViewController  {
+final class BusinessViewController: UIViewController  {
     // MARK: - Gui Variables
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -121,7 +121,7 @@ extension BusinessViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == (viewModel.sections[1].items.count - 15) {
-            viewModel.loadData()
+            viewModel.loadData(screenType: .business)
         }
     }
 }
