@@ -52,6 +52,8 @@ final class GeneralViewController: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        
+        viewModel.loadData(screenType: .general)
     }
     // MARK: - Methods
     
@@ -97,6 +99,10 @@ final class GeneralViewController: UIViewController  {
 
 // MARK: - UICollectionViewDataSource
 extension GeneralViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        viewModel.sections.count
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
          viewModel.sections[section].items.count
     }
@@ -117,5 +123,11 @@ extension GeneralViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let article = viewModel.sections[indexPath.section].items[indexPath.row] as? ArticleCellViewModel else { return }
         navigationController?.pushViewController(NewsDetailsViewController(viewModel: NewsDetailsViewModel(article: article)), animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == (viewModel.sections[0].items.count - 15) {
+            viewModel.loadData(screenType: .business)
+        }
     }
 }

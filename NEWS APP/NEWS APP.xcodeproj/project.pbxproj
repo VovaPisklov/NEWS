@@ -82,9 +82,9 @@
 				80055F002BB8B1D1000F5B6D /* TabBar */,
 				809386C62B9FA7CD00602163 /* General */,
 				809386C72B9FA7DE00602163 /* Business */,
+				80055EFE2BB8AF29000F5B6D /* BaseNewsList */,
 				809386C82B9FA7EA00602163 /* Technology */,
 				809386CE2B9FB24500602163 /* NewsDetails */,
-				80055EFE2BB8AF29000F5B6D /* BaseNewsList */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -186,9 +186,9 @@
 		809386C62B9FA7CD00602163 /* General */ = {
 			isa = PBXGroup;
 			children = (
+				801DCDAD2BA37B5900E1D818 /* Model */,
 				809386C92B9FA85800602163 /* View */,
 				809386D72B9FC81400602163 /* ViewModel */,
-				801DCDAD2BA37B5900E1D818 /* Model */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -196,8 +196,8 @@
 		809386C72B9FA7DE00602163 /* Business */ = {
 			isa = PBXGroup;
 			children = (
-				806A19322BAA30A4001869D7 /* ViewModel */,
 				809386CA2B9FA86000602163 /* View */,
+				806A19322BAA30A4001869D7 /* ViewModel */,
 			);
 			path = Business;
 			sourceTree = "<group>";

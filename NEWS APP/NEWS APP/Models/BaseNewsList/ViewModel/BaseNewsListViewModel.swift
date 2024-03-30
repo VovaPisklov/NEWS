@@ -27,7 +27,7 @@ class BaseNewsListViewModel: BaseNewsListViewModelProtocol {
     var reloadData: (() -> Void)?
     
     //  MARK: - Properties
-    private (set) var sections: [SectionDataSource] = [] {
+    var sections: [SectionDataSource] = [] {
         didSet {
             let sectionChangesDetected = sections.contains { newSection in
                 guard let oldSection = oldValue.first(where: { $0.items.count != newSection.items.count }) else {
@@ -55,6 +55,10 @@ class BaseNewsListViewModel: BaseNewsListViewModelProtocol {
         }
     }
     
+    func convertToCellViewModel(_ articles: [ArticleResponseObject]) {
+        fatalError("Need to override")
+    }
+    
     private func handleResult(_ result: Result<[ArticleResponseObject], Error>) {
         switch result {
         case .success(let articles):
@@ -64,17 +68,6 @@ class BaseNewsListViewModel: BaseNewsListViewModelProtocol {
             DispatchQueue.main.sync {
                 self.showError?(error.localizedDescription)
             }
-        }
-    }
-    
-    private func convertToCellViewModel(_ articles: [ArticleResponseObject]) {
-        var viewModels = articles.map { ArticleCellViewModel(article: $0) }
-        if sections.isEmpty {
-            let firstSection = SectionDataSource(items: [viewModels.removeFirst()])
-            let secondSection = SectionDataSource(items: viewModels)
-            sections = [firstSection, secondSection]
-        } else {
-            sections[1].items += viewModels
         }
     }
     
