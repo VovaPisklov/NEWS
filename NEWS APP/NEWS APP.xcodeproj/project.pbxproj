@@ -65,6 +65,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		80055EFE2BB8AF29000F5B6D /* Base */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		80055EFF2BB8AF90000F5B6D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				809386C72B9FA7DE00602163 /* Business */,
+				809386C82B9FA7EA00602163 /* Technology */,
+				809386CE2B9FB24500602163 /* News */,
+				809386C62B9FA7CD00602163 /* General */,
+				80055EFE2BB8AF29000F5B6D /* Base */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		801DCDAD2BA37B5900E1D818 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,10 +141,7 @@
 				809386A72B9F814E00602163 /* AppDelegate.swift */,
 				809386BB2B9F83D200602163 /* TabBarController.swift */,
 				801DCDB22BA38E8800E1D818 /* Networking */,
-				809386C62B9FA7CD00602163 /* General */,
-				809386CE2B9FB24500602163 /* News */,
-				809386C72B9FA7DE00602163 /* Business */,
-				809386C82B9FA7EA00602163 /* Technology */,
+				80055EFF2BB8AF90000F5B6D /* Models */,
 				809386B22B9F815100602163 /* LaunchScreen.storyboard */,
 				809386B52B9F815100602163 /* Info.plist */,
 			);
