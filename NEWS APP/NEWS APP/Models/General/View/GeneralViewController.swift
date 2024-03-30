@@ -42,6 +42,7 @@ final class GeneralViewController: UIViewController  {
     init(viewModel: BaseNewsListViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        self.setupUI()
         self.setupViewModel()
     }
     
@@ -51,11 +52,8 @@ final class GeneralViewController: UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
-        
         viewModel.loadData(screenType: .general)
     }
-    // MARK: - Methods
     
     // MARK: - Private methods
     private func setupViewModel() {
@@ -78,8 +76,7 @@ final class GeneralViewController: UIViewController  {
         view.addSubview(searchBar)
         view.addSubview(collectionView)
         
-        collectionView.register(GeneralCollectionViewCell.self,
-                                forCellWithReuseIdentifier: "GeneralCollectionViewCell")
+        collectionView.register(GeneralCollectionViewCell.self, forCellWithReuseIdentifier: "GeneralCollectionViewCell")
         
         setupConstraints()
     }
@@ -126,8 +123,8 @@ extension GeneralViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == (viewModel.sections[0].items.count - 15) {
-            viewModel.loadData(screenType: .business)
+        if indexPath.row == (viewModel.sections[indexPath.section].items.count - 15) {
+            viewModel.loadData(screenType: .general)
         }
     }
 }
