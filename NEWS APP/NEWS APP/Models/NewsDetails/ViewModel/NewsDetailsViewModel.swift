@@ -1,5 +1,5 @@
 //
-//  NewsViewModel.swift
+//  NewsDetailsViewModel.swift
 //  NEWS APP
 //
 //  Created by Vova on 15.03.2024.
@@ -7,14 +7,14 @@
 
 import Foundation
 
-protocol NewsViewModelProtocol {
+protocol NewsDetailsViewModelProtocol {
     var title: String { get }
     var description: String { get }
     var date: String { get }
     var imageData: Data? { get }
 }
 
-final class NewsViewModel: NewsViewModelProtocol {
+final class NewsDetailsViewModel: NewsDetailsViewModelProtocol {
     let title: String
     let description: String
     let date: String

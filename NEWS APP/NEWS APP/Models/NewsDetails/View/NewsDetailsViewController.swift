@@ -1,5 +1,5 @@
 //
-//  NewsViewController.swift
+//  NewsDetailsViewController.swift
 //  NEWS APP
 //
 //  Created by Vova on 11.03.2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class NewsViewController: UIViewController {
+final class NewsDetailsViewController: UIViewController {
     
     // MARK: - Gui Variables
     private lazy var scrollView: UIScrollView = {
@@ -49,10 +49,10 @@ final class NewsViewController: UIViewController {
     
     // MARK: - Properties
     private var edgeInset = 10
-    private var viewModel: NewsViewModelProtocol
+    private var viewModel: NewsDetailsViewModelProtocol
 
     // MARK: - Life Cycle
-    init(viewModel: NewsViewModelProtocol) {
+    init(viewModel: NewsDetailsViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

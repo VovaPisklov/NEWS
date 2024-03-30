@@ -116,7 +116,7 @@ extension BusinessViewController: UICollectionViewDataSource {
 extension BusinessViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let article = viewModel.sections[indexPath.section].items[indexPath.row] as? ArticleCellViewModel else { return }
-        navigationController?.pushViewController(NewsViewController(viewModel: NewsViewModel(article: article)), animated: true)
+        navigationController?.pushViewController(NewsDetailsViewController(viewModel: NewsDetailsViewModel(article: article)), animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
