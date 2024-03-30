@@ -36,10 +36,10 @@ class GeneralViewController: UIViewController  {
     }()
     
     //  MARK: - Properties
-    private var viewModel: GeneralViewModelProtocol
+    private var viewModel: BaseNewsListViewModelProtocol
     
     // MARK: - Life Cycle
-    init(viewModel: GeneralViewModelProtocol) {
+    init(viewModel: BaseNewsListViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.setupViewModel()

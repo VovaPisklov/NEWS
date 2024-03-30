@@ -31,10 +31,10 @@ class BusinessViewController: UIViewController  {
     
     // MARK: - Properties
     
-    private var viewModel: BusinessViewModelProtocol
+    private var viewModel: BaseNewsListViewModelProtocol
     
     // MARK: - Life Cycle
-    init(viewModel: BusinessViewModelProtocol) {
+    init(viewModel: BaseNewsListViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.setupUI()
@@ -49,7 +49,7 @@ class BusinessViewController: UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.loadData()
+        viewModel.loadData(screenType: .business)
     }
     
     // MARK: - Private methods
